@@ -8,14 +8,5 @@
 
 	<script>
 
-		// Initialize the editor with a JSON schema
-		var editor = new JSONEditor(document.getElementById('editor_holder'), {
-			schema: getSchema()
-		});	
-
-		editor.on('ready',() => {
-		// Now the api methods will be available
-		editor.validate();
-		});
 	</script>
 </body>
