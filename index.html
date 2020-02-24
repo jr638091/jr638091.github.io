@@ -1,15 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>GitHub API</title>
-
-	<!-- Import the Bootstrap CSS CDN -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
+	<script src="jsoneditor.min.js"></script>
+	<script src="app.js"></script>
 </head>
-<body>
 
-	<a href='https://github.com/login/oauth/authorize?client_id=jr638091'>link</a>
+<body>
+	<div id="editor_holder"></div>
+
+	<script>
+
+		// Initialize the editor with a JSON schema
+		var editor = new JSONEditor(document.getElementById('editor_holder'), {
+			schema: getSchema()
+		});	
+
+		editor.on('ready',() => {
+		// Now the api methods will be available
+		editor.validate();
+		});
+	</script>
 </body>
-</html>

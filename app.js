@@ -1,42 +1,41 @@
-// Get the GitHub username input form
-const gitHubForm = document.getElementById('gitHubForm');
+$schema = {
+    type: "object",
+    title: "Car",
+    properties: {
+        make: {
+            type: "string",
+            enum: [
+                "Toyota",
+                "BMW",
+                "Honda",
+                "Ford",
+                "Chevy",
+                "VW"
+            ]
+        },
+        model: {
+            type: "string"
+        },
+        year: {
+            type: "integer",
+            enum: [
+                1995, 1996, 1997, 1998, 1999,
+                2000, 2001, 2002, 2003, 2004,
+                2005, 2006, 2007, 2008, 2009,
+                2010, 2011, 2012, 2013, 2014
+            ],
+            default: 2008
+        },
+        safety: {
+            type: "integer",
+            format: "rating",
+            maximum: "5",
+            exclusiveMaximum: false,
+            readonly: false
+        }
+    }
+}
 
-// Listen for submissions on GitHub username input form
-gitHubForm.addEventListener('submit', (e) => {
-    
-    // Prevent default form submission action
-    e.preventDefault();
-
-    // Get the GitHub username input field on the DOM
-    let usernameInput = document.getElementById('usernameInput');
-
-    // Get the value of the GitHub username input field
-    let gitHubUsername = usernameInput.value;          
-
-    // Run GitHub API function, passing in the GitHub username
-    requestUserRepos(gitHubUsername);
-
-})
-
-
-function requestUserRepos(username){
-    
-    // Create new XMLHttpRequest object
-    // const xhr = new XMLHttpRequest();
-    
-    // GitHub endpoint, dynamically passing in specified username
-    const url = `https://github.com/login/oauth/authorize?client_id=${username}`;
-   
-    window.location.replace(url)
-
-    // // Open a new connection, using a GET request via URL endpoint
-    // // Providing 3 arguments (GET/POST, The URL, Async True/False)
-    // xhr.open('GET', url, false);
-
-    // // When request is received
-    // // Process it here
-    // xhr.send();
-    
-
-
+function getSchema() {
+    return $schema
 }
