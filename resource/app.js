@@ -1,14 +1,17 @@
+// import GitHub from 'github-api';
 // This is the starting value for the editor
 // We will use this to seed the initial editor 
 // and to provide a "Restore to Default" button.
 repoUrl="";
+owner="jr638091"
+repo='jr638091.github.io'
 
-var starting_value;
 var editor;
+var dataset_info;
 
-$.getJSON( repoUrl+"/resource/dataset.json", function( data ) 
+$.getJSON( `http://api.github.com/repos/${owner}/${repo}/contents/resource/dataset.json`, function( data ) 
 {
-  starting_value = data;
+  dataset_info = data;
   // Initialize the editor
   editor = new JSONEditor(document.getElementById('editor_holder'), {
     // Enable fetching schemas via ajax
@@ -36,7 +39,7 @@ $.getJSON( repoUrl+"/resource/dataset.json", function( data )
     },
 
     // Seed the form with a starting value
-    startval: starting_value,
+    startval: JSON.parse(atob(data.content)),
 
     // Disable additional properties
     no_additional_properties: true,
@@ -87,17 +90,30 @@ document.getElementById('enable_disable').addEventListener('click', function () 
   }
 });
 
-OAuth.initialize("1I8RB4EJobWL3PLZzFku9K-_uUc");
-
+OAuth.initialize('PVanBGV_sJB6pLh88oFohbI7CUQ')
+var access_token;
+   
 function updateData(){
-  starting_value = editor.getValue();
-  OAuth.popup('github')
-    .done(function(result) {
-      console.log(result)
-    //use result.access_token in your API request 
-    //or use result.get|post|put|del|patch|me methods (see below)
+  var saveData = editor.getValue();
+  OAuth.popup('github').done(function(result) {
+    access_token = result.access_token;
+    var myJSON = JSON.stringify(saveData);
+    console.log(myJSON)
+    var encodedString = btoa(myJSON);
+    console.log(encodedString)
+    q = $.ajax({method:'PUT', 
+    url:`http://api.github.com/repos/${owner}/${repo}/contents/resource/dataset.json`,
+    xhrFields: {
+      withCredentials: true
+    },
+    headers:{
+      Authorization: `${access_token} OAUTH-TOKEN`
+    },
+    data:{
+      content:encodedString,
+      message:`${repo} by ${owner} at ${Date.now()}`,
+      sha:dataset_info.content
+    }
     })
-    .fail(function (err) {
-    //handle error with err
-    });
+  });
 }
