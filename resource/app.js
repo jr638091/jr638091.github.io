@@ -2,15 +2,21 @@
 // This is the starting value for the editor
 // We will use this to seed the initial editor 
 // and to provide a "Restore to Default" button.
-repoUrl="";
-owner="jr638091"
-repo='jr638091.github.io'
+repoUrl = "";
+owner = "jr638091"
+repo = 'jr638091.github.io'
 
 var editor;
 var dataset_info;
 
-$.getJSON( `http://api.github.com/repos/${owner}/${repo}/contents/resource/dataset.json`, function( data ) 
-{
+OAuth.initialize('PVanBGV_sJB6pLh88oFohbI7CUQ')
+var access_token;
+
+OAuth.popup('github').done(function (result) {
+  access_token = result.access_token;
+});
+
+$.getJSON(`http://api.github.com/repos/${owner}/${repo}/contents/resource/dataset.json`,{Authorization: `${access_token} OAUTH-TOKEN`}).done( function (data) {
   dataset_info = data;
   // Initialize the editor
   editor = new JSONEditor(document.getElementById('editor_holder'), {
@@ -90,30 +96,38 @@ document.getElementById('enable_disable').addEventListener('click', function () 
   }
 });
 
-OAuth.initialize('PVanBGV_sJB6pLh88oFohbI7CUQ')
-var access_token;
-   
-function updateData(){
+
+
+function updateData() {
   var saveData = editor.getValue();
-  OAuth.popup('github').done(function(result) {
-    access_token = result.access_token;
-    var myJSON = JSON.stringify(saveData);
-    console.log(myJSON)
-    var encodedString = btoa(myJSON);
-    console.log(encodedString)
-    q = $.ajax({method:'PUT', 
-    url:`http://api.github.com/repos/${owner}/${repo}/contents/resource/dataset.json`,
+  
+  var myJSON = JSON.stringify(saveData);
+  console.log(myJSON)
+  var encodedString = btoa(myJSON);
+  console.log(encodedString)
+  save = $.ajax({
+    method: 'PUT',
+    url: `https://api.github.com/repos/${owner}/${repo}/contents/resource/dataset.json`,
     xhrFields: {
       withCredentials: true
     },
-    headers:{
+    headers: {
       Authorization: `${access_token} OAUTH-TOKEN`
     },
-    data:{
-      content:encodedString,
-      message:`${repo} by ${owner} at ${Date.now()}`,
-      sha:dataset_info.content
+    data: {
+      content: encodedString,
+      message: `${repo} by ${owner} at ${Date.now()}`,
+      sha: dataset_info.content
     }
-    })
+    // pr = $.ajax({
+    //   method: 'POST',
+    //   url: `https://api.github.com/repos/${owner}/${repo}/pulls`,
+    //   xhrFields: {
+    //     withCredentials: true
+    //   },
+    //   headers: {
+    //     Authorization: `${access_token} OAUTH-TOKEN`
+    //   },
+    // });
   });
 }
