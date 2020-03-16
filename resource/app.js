@@ -103,11 +103,13 @@ function updateData() {
   json = {
     "content": encodedString,
     "message": `${repo} by ${owner} at ${Date.now()}`,
-    "committer": {name: "jr638091", email:"jr638091@gmail.com"},
+    "sha": dataset_info.sha
+
+    // "committer": {name: "jr638091", email:"jr638091@gmail.com"},
   };
   save = $.ajax({
     method: 'PUT',
-    url: `https://api.github.com/repos/${owner}/${repo}/contents/resource/createtest.json`,
+    url: `https://api.github.com/repos/${owner}/${repo}/contents/resource/dataset.json`,
     // beforeSend: function (request) {
     //   request.setRequestHeader("Authorization", `token ${access_token}`);
     // },
