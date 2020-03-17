@@ -3,16 +3,19 @@
 // We will use this to seed the initial editor 
 // and to provide a "Restore to Default" button.
 repoUrl = "";
-owner = "jr638091"
-repo = 'jr638091.github.io'
+owner = "jr638091";
+repo = 'jr638091.github.io';
 
 var editor;
 var dataset_info;
 
-OAuth.initialize('PVanBGV_sJB6pLh88oFohbI7CUQ')
+OAuth.initialize('PVanBGV_sJB6pLh88oFohbI7CUQ');
 var access_token;
 
-OAuth.popup('github').done(function (result) {
+OAuth.popup('github').fail(function (error) {
+  console.log(error)
+})
+    .done(function (result) {
   access_token = result.access_token;
   $.getJSON(`http://api.github.com/repos/${owner}/${repo}/contents/resource/dataset.json`, { Authorization: `${access_token} OAUTH-TOKEN` }).done(function (data) {
     dataset_info = data;
@@ -71,69 +74,75 @@ OAuth.popup('github').done(function (result) {
       }
     });
   });
-});
+  document.getElementById('pull_request').addEventListener('click', generatePullRequest);
 
-// Hook up the Restore to Default button
-document.getElementById('restore').addEventListener('click', function () {
-  editor.setValue(starting_value);
-});
-
-document.getElementById('submit').addEventListener('click', updateData)
+  document.getElementById('submit').addEventListener('click', updateData);
 
 // Hook up the enable/disable button
-document.getElementById('enable_disable').addEventListener('click', function () {
-  // Enable form
-  if (!editor.isEnabled()) {
-    editor.enable();
-  }
-  // Disable form
-  else {
-    editor.disable();
-  }
+  document.getElementById('enable_disable').addEventListener('click', function () {
+    // Enable form
+    if (!editor.isEnabled()) {
+      editor.enable();
+    }
+    // Disable form
+    else {
+      editor.disable();
+    }
+  });
 });
 
 
+
+function generatePullRequest() {
+  // var pullRequestJson = {
+  //   "tittle": `Pull request from ${ }`,
+  //   "body": "Please check the data before pull",
+  //   "base": "master"
+  // };
+  // pr = $.ajax({
+  //   method: 'POST',
+  //   url: `https://api.github.com/repos/${owner}/${repo}/pulls`,
+  //   beforeSend: function(x) {
+  //     if (x && x.overrideMimeType) {
+  //       x.overrideMimeType("application/j-son;charset=UTF-8");
+  //     }
+  //   },
+  //   headers: {
+  //     Authorization: `Token ${access_token}`
+  //   },
+  //   dataType: "json",
+  //   data: JSON.stringify(json)
+  // });
+  //
+  // pr.fail(function (err) {
+  //   console.log(err);
+  // });
+}
 
 function updateData() {
   var saveData = editor.getValue();
 
   var myJSON = JSON.stringify(saveData);
-  console.log(myJSON);
   var encodedString = btoa(myJSON);
   json = {
     "content": encodedString,
     "message": `${repo} by ${owner} at ${Date.now()}`,
     "sha": dataset_info.sha
-
-    // "committer": {name: "jr638091", email:"jr638091@gmail.com"},
   };
   save = $.ajax({
     method: 'PUT',
     url: `https://api.github.com/repos/${owner}/${repo}/contents/resource/dataset.json`,
-    // beforeSend: function (request) {
-    //   request.setRequestHeader("Authorization", `token ${access_token}`);
-    // },
-    headers: {
-      Authorization: `Token ${access_token}`
-      // sha: dataset_info.sha
-    },
     beforeSend: function(x) {
       if (x && x.overrideMimeType) {
         x.overrideMimeType("application/j-son;charset=UTF-8");
       }
     },
+    headers: {
+      Authorization: `Token ${access_token}`
+      // sha: dataset_info.sha
+    },
     dataType: "json",
     data: JSON.stringify(json)
-    // pr = $.ajax({
-    //   method: 'POST',
-    //   url: `https://api.github.com/repos/${owner}/${repo}/pulls`,
-    //   xhrFields: {
-    //     withCredentials: true
-    //   },
-    //   headers: {
-    //     Authorization: `${access_token} OAUTH-TOKEN`
-    //   },
-    // });
   });
   save.fail(function (err) {
     console.log(err);
