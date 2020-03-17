@@ -17,7 +17,7 @@ OAuth.popup('github').fail(function (error) {
 })
     .done(function (result) {
   access_token = result.access_token;
-  $.getJSON(`http://api.github.com/repos/${owner}/${repo}/contents/resource/dataset.json`, { Authorization: `${access_token} OAUTH-TOKEN` }).done(function (data) {
+  $.getJSON(`https://api.github.com/repos/${owner}/${repo}/contents/resource/dataset.json`, { Authorization: `${access_token} OAUTH-TOKEN` }).done(function (data) {
     dataset_info = data;
     // Initialize the editor
     editor = new JSONEditor(document.getElementById('editor_holder'), {
