@@ -109,7 +109,7 @@ function generatePullRequest() {
   var base = document.getElementById("baseInput").value;
   var head = document.getElementById("headInput").value;
   var pullRequestJson = {
-    "tittle": title,
+    "title": title,
     "body": body,
     "base": base,
     "head": head
