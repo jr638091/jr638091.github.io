@@ -9,6 +9,16 @@ repo = 'jr638091.github.io';
 var editor;
 var dataset_info;
 
+var data;
+
+var csv = CSV.fetch({
+  url: 'http://localhost:8000/resource/data.csv'
+}).done(function (dataset) {
+  console.log(dataset)
+}).fail(function (error) {
+  console.log(error)
+});
+
 OAuth.initialize('PVanBGV_sJB6pLh88oFohbI7CUQ');
 var access_token;
 
@@ -94,29 +104,34 @@ OAuth.popup('github').fail(function (error) {
 
 
 function generatePullRequest() {
-  // var pullRequestJson = {
-  //   "tittle": `Pull request from ${ }`,
-  //   "body": "Please check the data before pull",
-  //   "base": "master"
-  // };
-  // pr = $.ajax({
-  //   method: 'POST',
-  //   url: `https://api.github.com/repos/${owner}/${repo}/pulls`,
-  //   beforeSend: function(x) {
-  //     if (x && x.overrideMimeType) {
-  //       x.overrideMimeType("application/j-son;charset=UTF-8");
-  //     }
-  //   },
-  //   headers: {
-  //     Authorization: `Token ${access_token}`
-  //   },
-  //   dataType: "json",
-  //   data: JSON.stringify(json)
-  // });
-  //
-  // pr.fail(function (err) {
-  //   console.log(err);
-  // });
+  var title = document.getElementById("titleInput").value;
+  var body = document.getElementById("bodyInput").value;
+  var base = document.getElementById("baseInput").value;
+  var head = document.getElementById("headInput").value;
+  var pullRequestJson = {
+    "title": title,
+    "body": body,
+    "base": base,
+    "head": head
+  };
+  pr = $.ajax({
+    method: 'POST',
+    url: `https://api.github.com/repos/${owner}/${repo}/pulls`,
+    beforeSend: function(x) {
+      if (x && x.overrideMimeType) {
+        x.overrideMimeType("application/j-son;charset=UTF-8");
+      }
+    },
+    headers: {
+      Authorization: `Token ${access_token}`
+    },
+    dataType: "json",
+    data: JSON.stringify(pullRequestJson)
+  });
+
+  pr.fail(function (err) {
+    console.log(err);
+  });
 }
 
 function updateData() {
