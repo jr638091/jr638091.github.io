@@ -12,7 +12,7 @@ var dataset_info;
 var data;
 
 var csv = CSV.fetch({
-  url: 'http://localhost:8000/resource/data.csv'
+  url: 'http://localhost:8000/resource/dataset.csv'
 }).done(function (dataset) {
   console.log(dataset)
 }).fail(function (error) {
