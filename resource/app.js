@@ -109,7 +109,7 @@ function generatePullRequest() {
   var base = document.getElementById("baseInput").value;
   var head = document.getElementById("headInput").value;
   var pullRequestJson = {
-    "title": title,
+    "tittle": title,
     "body": body,
     "base": base,
     "head": head
@@ -125,7 +125,8 @@ function generatePullRequest() {
     headers: {
       Authorization: `Token ${access_token}`
     },
-    data: pullRequestJson
+    dataType: "json",
+    data: JSON.stringify(pullRequestJson)
   });
 
   pr.fail(function (err) {
