@@ -15,9 +15,9 @@ var dataset_name = url.searchParams.get("name");
 
 $.getJSON(`/resource/config.json`).done(function (config) {
   repo = config["data"]["repo"];
-  owner = config["data"]["repo"];
+  owner = config["data"]["owner"];
 
-  $.getJSON(`${base_url}/repos/${owner}/${repo}/contents/data/${dataset_name}/dataset.json`).done(function (data) {
+  $.getJSON(`${base_url}/repos/${owner}/${repo}/contents/data/${dataset_name}/dataset.json?ref=latest`).done(function (data) {
     dataset_info = data;
     // Initialize the editor
     editor = new JSONEditor(document.getElementById('editor_holder'), {
@@ -94,17 +94,18 @@ $.getJSON(`/resource/config.json`).done(function (config) {
 
 function updateData() {
   var saveData = editor.getValue();
-
+  let access_token = localStorage.getItem("GITHUB_PAT")
   var myJSON = JSON.stringify(saveData);
   var encodedString = btoa(myJSON);
   json = {
     "content": encodedString,
     "message": `${repo} by ${owner} at ${Date.now()}`,
-    "sha": dataset_info.sha
+    "sha": dataset_info.sha,
+    "branch": "latest"
   };
   save = $.ajax({
     method: 'PUT',
-    url: `https://api.github.com/repos/${owner}/${repo}/contents/resource/dataset.json`,
+    url: `${base_url}/repos/${owner}/${repo}/contents/data/${dataset_name}/dataset.json`,
     beforeSend: function (x) {
       if (x && x.overrideMimeType) {
         x.overrideMimeType("application/j-son;charset=UTF-8");
