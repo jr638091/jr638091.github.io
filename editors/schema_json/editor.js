@@ -17,7 +17,7 @@ $.getJSON(`/resource/config.json`).done(function (config) {
   repo = config["data"]["repo"];
   owner = config["data"]["owner"];
 
-  $.getJSON(`${base_url}/repos/${owner}/${repo}/contents/data/${dataset_name}/dataset.json?ref=latest`).done(function (data) {
+  $.getJSON(`${base_url}/repos/${owner}/${repo}/contents/data/${dataset_name}/dataset.json?ref=${dataset_name}_latest`).done(function (data) {
     dataset_info = data;
     // Initialize the editor
     editor = new JSONEditor(document.getElementById('editor_holder'), {
@@ -101,7 +101,7 @@ function updateData() {
     "content": encodedString,
     "message": `${repo} by ${owner} at ${Date.now()}`,
     "sha": dataset_info.sha,
-    "branch": "latest"
+    "branch": `${dataset_name}_latest`
   };
   save = $.ajax({
     method: 'PUT',
