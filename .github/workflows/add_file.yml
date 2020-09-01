@@ -1,14 +1,7 @@
 name: Add dataset
 on:
-  workflow_dispatch:
-    inputs:
-      dataSetName:
-        description: 'Nombre identificativo del dataset'
-        required: true
-      dataSetFormat:
-        description: 'Formato del dataset(json/csv)'
-        required: true
-        default: 'json'
+  push:
+    branches: master
     
 jobs:
   add_file:
@@ -20,28 +13,10 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.7
-      - name: add to index
-        run: python add_file.py ${{ github.event.inputs.dataSetName }} ${{ github.event.inputs.dataSetFormat }}
-      - name: make a dir
-        run: mkdir -p data/${{ github.event.inputs.dataSetName }}
-      - name: create data
-        run: touch data/${{ github.event.inputs.dataSetName }}/dataset.${{ github.event.inputs.dataSetFormat }}
-      - name: add dataset to git
+      - name: Install dependencies
         run: |
-          git config --local user.name ${{ github.actor }}
-          git add .
-          git commit -m 'Added dataset ${{ github.event.github.event.inputs.dataSetName }}'
-        shell: bash
-      - name: Push changes # push the output folder to your repo
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          force: true
-      - name: create branch
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: '${{ github.event.inputs.dataSetName }}_latest'
-          force: true
-
-
+          python -m pip install --upgrade pip
+          pip install requests
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: add to index
+        run: python add_file.py ${{ github.sha }} ${{ github.token }}
