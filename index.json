@@ -1,1 +1,14 @@
-{"uh_persons_2018": {"name": "Trabjadores UH", "description": "Datos acerca de las personas existentes en la UH", "dataset_type": "JSON", "publishers": ["Juan Jose Roque Cires"], "url_dir": "persons", "schema": true, "visualizer": [], "editable": true}, "css_frameworks_info": {"name": "Informacion Frameworks", "description": "Datos acerca varios acerca de frameworks Css", "dataset_type": "CSV", "publishers": ["CSSEditor"], "url_dir": "frameworks", "schema": false, "visualizer": [], "editable": true}, "dogs": {"name": "Perros", "description": "Los perros de la UH", "dataset_type": "json", "publishers": [""], "url_dir": "dogs", "schema": false, "visualizer": [], "editable": true}}
+{
+  "uh_persons_2018": {
+    "name": "Trabjadores UH", "description": "Datos acerca de las personas existentes en la UH", "dataset_type": "JSON", "publishers": ["Juan Jose Roque Cires"], "url_dir": "persons", "schema": true, "visualizer": [], "editable": true
+  },
+  "css_frameworks_info": {
+    "name": "Informacion Frameworks", "description": "Datos acerca varios acerca de frameworks Css", "dataset_type": "CSV", "publishers": ["CSSEditor"], "url_dir": "frameworks", "schema": false, "visualizer": [], "editable": true
+  },
+  "dogs": {
+    "name": "Perros", "description": "Los perros de la UH", "dataset_type": "json", "publishers": ["Juan Jose Roque Cires"], "url_dir": "dogs", "schema": false, "visualizer": [], "editable": true
+  },
+  "cats": {
+    "name": "Gatos", "description": "Los gatos de la UH", "dataset_type": "json", "publishers": ["Juan Jose Roque Cires"], "url_dir": "cats", "schema": false, "visualizer": [], "editable": true
+  }
+}
