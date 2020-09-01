@@ -17,10 +17,8 @@ Awesome CSV Tools,Powershell: Import-CSV,https://docs.microsoft.com/en-us/powers
 Awesome CSV Tools,CSV Tools,https://onlinecsvtools.com/,"a collection of useful CSV utilities"
 Awesome CSV Tools,graph-cli,https://github.com/mcastorina/graph-cli,"Flexible command line tool to create graphs from CSV data"
 Awesome CSV Tools,CSV to SQL,http://www.convertcsv.com/csv-to-sql.htm,"Online tool to create insert/update/delete etc from CSV data"
-Awesome CSV Tools,C#: kbCSV,https://github.com/kentcb/KBCsv/blob/master/README.md,"An efficient, easy to use .NET parsing and writing library for CSV"
 Awesome CSV Tools,csvprintf,https://github.com/archiecobbs/csvprintf,"UNIX command line utility for parsing and formatting output based on CSV files"
 Awesome CSV Tools,Mockaroo,https://www.mockaroo.com/,"Random data generator for CSV / JSON / SQL / Excel"
-Awesome CSV Tools,Ron's CSV Editor,https://www.ronsplace.eu/products/ronseditor,"Handles big files, does miraculous things. A timeless editor for a timeless format."
 Repair or Validate CSV,Csvlint.go,https://github.com/Clever/csvlint,"Command line tool for validating CSV files against RFC 4180"
 Repair or Validate CSV,csvstudio,http://www.csvstudio.com,"A smart app to repair syntax errors in very large CSV files"
 Treat CSV as SQL,TextQL,http://dinedal.github.io/textql/,"Execute SQL Against CSV or TSV"
@@ -39,7 +37,6 @@ Awesome Data in CSV,US Data.gov,https://catalog.data.gov/dataset?res_format=CSV,
 Awesome Data in CSV,Australian Government Open Data,https://data.gov.au/dataset?res_format=CSV,"2715+ CSV datasets"
 Awesome Data in CSV,Reference data in csv,https://datahub.io/collections/reference-data,"Easy-to-use reference data in CSV and JSON formats"
 Awesome Data in CSV,awesome-public-datasets,https://github.com/awesomedata/awesome-public-datasets,"A topic-centric list of high-quality open datasets in public domains"
-Awesome Conferences About CSV,"csv,conf",https://csvconf.com/,"A community conference for data makers everywhere"
 Awesome CSV Standards,RFC 4180,https://tools.ietf.org/html/rfc4180,"*Common Format and MIME Type for Comma-Separated Values (CSV) Files*"
 Awesome CSV Standards,Definition of the CSV Format,https://tools.ietf.org/html/rfc4180#section-2,"Definition"
 Awesome CSV Standards,MIME Type Registration of text/csv,https://tools.ietf.org/html/rfc4180#section-3,"Mime-type"
@@ -49,4 +46,4 @@ Awesome CSV Standards,CSV 1.1,https://csv11.github.io/,"CSV evolved (for humans)
 Meta: Other Lists of CSV Tools and References,structured-text-tools,https://github.com/dbohdan/structured-text-tools,"List of command line tools for manipulating CSV / XML / HTML / JSON / INI etc"
 Meta: Other Lists of CSV Tools and References,META-META,https://raw.githubusercontent.com/secretGeek/AwesomeCSV/master/awesomecsv.csv,"This list as a CSV file"
 Meta: Other Lists of CSV Tools and References,META-META-META,https://nimbletext.com/Live/-971009575/,"This list as a NimbleText Pattern that produces a markdown page from this list as a CSV file"
-
+test1,test1,test1,test1
