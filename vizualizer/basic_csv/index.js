@@ -13,6 +13,14 @@ var dataset_info;
 var url_string = window.location.href
 var url = new URL(url_string);
 var dataset_name = url.searchParams.get("name");
+var selected;
+
+$(function ()
+{
+    var t = $("#title")[0]
+    t.innerText = dataset_name
+})
+
 
 $.getJSON(`/resource/config.json`).done(function (config) {
     repo = config["data"]["repo"];
@@ -45,7 +53,7 @@ function make_a_row(args = []) {
     var result = `\n<tr>`
     if(args.length === 0){
         for(var i = 0; i < columns; i++){
-            result += `<td contenteditable="true"></td>`
+            result += `<td></td>`
         }
     }
     else if(args.length !== columns){
@@ -55,7 +63,7 @@ function make_a_row(args = []) {
         for (i in args) {
             if(!(args[i] === "")) {
                 result += `\n
-                <td contenteditable="true">
+                <td>
                     ${args[i]}
                 </td>
             `
@@ -64,11 +72,6 @@ function make_a_row(args = []) {
 
     }
     result += `
-        <td width="5px">
-                        <button type="button" class="close" aria-label="Close" onclick="selected = this.parentNode.parentNode.remove()">
-                          <span aria-hidden="true">&times;</span>
-                        </button> 
-                    </td>
         </tr>
     `
     let bodyRow = $("#data_table > tbody")[0]
@@ -108,7 +111,7 @@ function updateData() {
     };
     save = $.ajax({
         method: 'PUT',
-        url: `${base_url}/repos/${owner}/${repo}/contents/data/${dataset_name}/dataset.csv`,
+        url: `${base_url}/repos/${owner}/${repo}/contents/data/${dataset_name}/dataset.json`,
         beforeSend: function (x) {
             if (x && x.overrideMimeType) {
                 x.overrideMimeType("application/j-son;charset=UTF-8");

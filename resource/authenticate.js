@@ -14,5 +14,6 @@ function save_token() {
     token = $( "#github_token" )[0].value;
     if (token !== ""){
         localStorage.setItem("GITHUB_PAT", token);
+        location.href = location.origin
     }
 }

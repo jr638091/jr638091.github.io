@@ -1,25 +1,49 @@
 import sys
 import json
+import requests
 
-def add_dataset(data_name : str, format : str):
-    index = None
-    with open("index.json", 'r') as fd:
-        index = json.load(fd)
+def get_branches(owner : str="", repo : str="") -> [str]:
+    print(owner, repo)
+    req = requests.get(f'https://api.github.com/repos/{owner}/{repo}/branches')
+    if "message" in req.json():
+        return []
+    response = req.json()
+    branches = [i["name"] for i in response]
+    return branches
     
-    index[data_name] = {
-                'name' : '',
-                'description' : '',
-                'dataset_type': format,
-                'publishers': [],
-                'url_dir': data_name,
-                'schema': False, 
-                'visualizer': [],
-                'editable': False
-            }
+def get_diff(branches : [str]) -> [str]:
+    output = []
+    with open("index.json") as fd:
+        j = json.load(fd)
+        for k in j:
+            v = j[k]
+            if not f'{v["url_dir"]}_latest' in branches:
+                output.append(f'{v["url_dir"]}_latest')
+    return output
 
-    with open("index.json", 'w') as fd:
-        
-        json.dump(index, fd)
+def create_branch(branch : str, sha: str, token: str, owner: str,repo: str):
+    body = {
+        "ref": f'refs/heads/{branch}',
+        "sha": sha
+    }
+    requests.post(f'https://api.github.com/repos/{owner}/{repo}/git/refs',
+     data=body,
+     headers={
+         "Authorization": f'token {token}'
+    })
+
+
 
 if __name__ == "__main__":
-    add_dataset(sys.argv[1], sys.argv[2])
+    owner = ""
+    repo = ""
+    with open("resource/config.json") as fd:
+        j = json.load(fd)["data"]
+        owner = j["owner"]
+        repo = j["repo"]
+    branches = get_branches(owner=owner, repo=repo)
+    branches_to_push = get_diff(branches)
+    sha = sys.argv[1]
+    token = sys.argv[2]
+    for i in branches_to_push:
+        create_branch(i,sha,token,owner,repo)

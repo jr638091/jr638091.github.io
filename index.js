@@ -9,9 +9,10 @@ token = localStorage.getItem("GITHUB_PAT")
 $(
     function () {
         if(token != null){
-            var auth = $("#auth")
-            auth.addClass("text-hide")
-            console.log(auth)
+            var auth = $("#auth")[0]
+            auth.hidden = true
+            var rem = $("#rem")[0]
+            rem.hidden = false
         }
 
         request.done(function(data){
@@ -31,7 +32,7 @@ $(
                 
                 ${
                     data[doc].editable && token != null ?
-                        `<a href="editors/${data[doc].schema ? "schema_json" : "plain_json"}/editor.html?name=${data[doc].url_dir}" class="col-1 text-center" target="_blank">
+                        `<a href="editors/${data[doc].dataset_type.toLowerCase() === "json" ? ( data[doc].schema ? "schema_json" : "plain_json") : "csv"}/editor.html?name=${data[doc].url_dir}" class="col-1 text-center" target="_blank">
                             <i class="fas fa-edit" style="font-size: 1.5rem;"></i>
                             <br>
                             <label class="" style="font-size: 12px" >Contribuir<label>
@@ -44,15 +45,15 @@ $(
                 ${
                     data[doc].visualizer.Count > 0 ? data[doc].visualable.forEach(i => {
                         `<a href="" class="col-1 text-center text-decoration-none">
-                        <div class="row justify-content-center">
                             <i class="fas fa-eye" style="font-size: 1.5rem;"></i>
-                        </div>
-                        
-                        <div class="row justify-content-center">
+                            <br>
                             <label class="" style="font-size: 12px" >Visualizar</label>
-                        </div>
                     </a>`
-                    }) : ""
+                    }) : `<a href="vizualizer/basic_${data[doc].dataset_type.toLowerCase()}?name=${data[doc].url_dir}" class="col-1 text-center">
+                            <i class="fas fa-eye" style="font-size: 1.5rem;"></i>
+                            <br>
+                            <label class="" style="font-size: 12px" >Visualizar</label>
+                    </a>`
                 }
                    
                 <div class="col-1">
@@ -72,10 +73,15 @@ $(
                 </div>
             </div>`
                 $( "#dataBib" ).append(html)
-            };
+            }
         })
     }
 )
+
+function remove_token() {
+    localStorage.removeItem("GITHUB_PAT")
+    window.location.reload()
+}
 
 function download(data_name, format = "json", schema = false) {
     var zip = new JSZip()
