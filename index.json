@@ -6,9 +6,9 @@
     "name": "Informacion Frameworks", "description": "Información relevante acerca de frameworks que posibilitan en uso sencillo y directo de tablas CSV", "dataset_type": "CSV", "publishers": ["CSSEditor"], "url_dir": "frameworks", "schema": false, "visualizer": [], "editable": true
   },
   "dogs": {
-    "name": "Perros de la UH", "description": "Los perros de la UH", "dataset_type": "json", "publishers": ["Juan Jose Roque Cires"], "url_dir": "dogs", "schema": false, "visualizer": [], "editable": true
+    "name": "Perros de la UH", "description": "Los perros de la UH", "dataset_type": "JSON", "publishers": ["Juan Jose Roque Cires"], "url_dir": "dogs", "schema": false, "visualizer": [], "editable": true
   },
   "cats": {
-    "name": "Gatos de la UH", "description": "Los gatos de la UH", "dataset_type": "json", "publishers": ["Juan Jose Roque Cires"], "url_dir": "cats", "schema": false, "visualizer": [], "editable": true
+    "name": "Gatos de la UH", "description": "Los gatos de la UH", "dataset_type": "JSON", "publishers": ["Juan Jose Roque Cires"], "url_dir": "cats", "schema": false, "visualizer": [], "editable": true
   }
 }
